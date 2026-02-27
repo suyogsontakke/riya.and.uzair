@@ -72,6 +72,7 @@
       border-radius: 50%; width: 50px; height: 50px; display: none; justify-content: center; 
       align-items: center; cursor: pointer; font-size: 22px; backdrop-filter: blur(5px);
       box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+      transition: background 0.3s;
     }
 
     /* Main Invitation */
@@ -106,6 +107,74 @@
     .time-box span { display: block; font-family: 'Cinzel', serif; font-size: 1.8rem; font-weight: 600; color: #ffffff; text-shadow: 0 0 10px rgba(212, 175, 55, 0.8); }
     .time-box p { font-size: 0.7rem; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px; color: #d4af37; font-weight: 500; }
 
+    /* Magic Sparkle Tap Button */
+    .magic-btn {
+      margin-top: 10px;
+      margin-bottom: 20px;
+      padding: 12px 30px;
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid #d4af37;
+      color: #fceea7;
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+      transition: all 0.1s ease; 
+      animation: pulseGlow 2s infinite;
+      letter-spacing: 2px;
+      z-index: 10;
+      user-select: none;
+    }
+    .magic-btn:hover { background: rgba(212, 175, 55, 0.3); transform: scale(1.05); }
+    .magic-btn:active { transform: scale(0.95); background: rgba(212, 175, 55, 0.6); box-shadow: 0 0 30px rgba(212, 175, 55, 0.8); }
+
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
+      50% { box-shadow: 0 0 25px rgba(212, 175, 55, 0.8); }
+      100% { box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
+    }
+
+    /* Scroll Reveal Animation Classes */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Shared Section Title */
+    .section-title { font-family: 'Cinzel', serif; font-size: 1.8rem; color: #d4af37; margin-bottom: 25px; letter-spacing: 4px; text-transform: uppercase; text-align: center; }
+
+    /* Video Section */
+    .video-section {
+      min-height: 80vh; width: 100%;
+      background: rgba(1, 21, 14, 0.6); backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 60px 20px;
+    }
+    .video-container {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; 
+      width: 100%; max-width: 1000px; margin-top: 20px;
+    }
+    .video-wrapper {
+      flex: 1 1 300px; max-width: 450px;
+      border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 15px; 
+      overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+      background: #000; display: flex; align-items: center; justify-content: center;
+      aspect-ratio: 16/9; 
+    }
+    .video-wrapper video {
+      width: 100%; height: 100%; outline: none; object-fit: cover;
+    }
+
+    /* Location Section */
     .location-section {
       min-height: 100vh; width: 100%;
       background: rgba(1, 21, 14, 0.8); backdrop-filter: blur(10px);
@@ -113,8 +182,7 @@
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       padding: 60px 20px;
     }
-    .location-title { font-family: 'Cinzel'; font-size: 1.8rem; color: #d4af37; margin-bottom: 25px; letter-spacing: 4px; }
-    .venue-details { margin-bottom: 30px; color: #fceea7; font-size: 1.1rem; line-height: 1.8; }
+    .venue-details { margin-bottom: 30px; color: #fceea7; font-size: 1.1rem; line-height: 1.8; text-align: center; }
     .map-container { 
       width: 100%; max-width: 500px; height: 300px; 
       border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 15px; 
@@ -141,7 +209,8 @@
   </audio>
 
   <div id="canvas-container"></div>
-  <div id="audio-controls">🔊</div>
+  
+  <div id="audio-controls" title="Toggle Audio">🔊</div>
 
   <div id="entry-screen">
     <div class="glass-panel">
@@ -175,23 +244,46 @@
           <div class="time-box"><span id="cd-secs">00</span><p>Secs</p></div>
         </div>
         
-        <p style="margin-top: 40px; color: #fff; font-size: 0.8rem; opacity: 0.5;">SCROLL DOWN FOR LOCATION ↓</p>
+        <button id="sparkle-tap-btn" class="magic-btn">✨ Tap for Magic ✨</button>
+
+        <p style="margin-top: 10px; color: #fff; font-size: 0.8rem; opacity: 0.5;">SCROLL DOWN ↓</p>
       </div>
     </div>
 
+    <section class="video-section">
+      <h2 class="section-title reveal">Moments</h2>
+      <div class="video-container reveal">
+        
+        <div class="video-wrapper">
+          <video controls preload="metadata" poster="https://via.placeholder.com/450x250/000000/d4af37?text=Video+1+Placeholder">
+            <source src="video1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+        <div class="video-wrapper">
+          <video controls preload="metadata" poster="https://via.placeholder.com/450x250/000000/d4af37?text=Video+2+Placeholder">
+            <source src="video2.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+
+      </div>
+    </section>
+
     <section class="location-section">
-      <h2 class="location-title">The Venue</h2>
-      <div class="venue-details">
+      <h2 class="section-title reveal">The Venue</h2>
+      <div class="venue-details reveal">
         <p><strong>Mominpura Ansar Nagar</strong></p>
         <p>Near Noorani Masjid, Noorani Ground</p>
         <p>Nagpur, Maharashtra</p>
       </div>
 
-      <div class="map-container">
+      <div class="map-container reveal">
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d482.55135236684856!2d79.09348815181754!3d21.159184391259675!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd4c0db1bf0dd71%3A0x866f4db9a03a7c65!2sNoorani%20Ground!5e0!3m2!1sen!2sin!4v1771593773773!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
       </div>
 
-      <div class="action-buttons">
+      <div class="action-buttons reveal">
         <a href="https://maps.app.goo.gl/MuGy8HhKXF8A8ckb7?g_st=aw" target="_blank" class="btn nav-btn">📍 Get Directions</a>
       </div>
     </section>
@@ -206,6 +298,20 @@
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
 
   <script>
+    // --- Scroll Reveal Animations ---
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target); // Trigger only once
+        }
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+    
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // --- Countdown Timer ---
     const targetDate = new Date("March 25, 2026 20:00:00").getTime();
     const countdownInterval = setInterval(() => {
       const now = new Date().getTime();
@@ -229,15 +335,18 @@
     const greetingText = document.getElementById('greeting-text');
     const bgMusic = document.getElementById('bg-music');
     const audioControls = document.getElementById('audio-controls');
+    const sparkleTapBtn = document.getElementById('sparkle-tap-btn');
     
     let isPlaying = false;
     let isTabActive = true; 
+    let musicPausedByVideo = false; // Flag for Smart Audio feature
     const isMobile = window.innerWidth <= 768;
 
     const initialCameraZ = isMobile ? 12 : 10;
     let targetCameraZ = initialCameraZ; 
     const finalCameraZ = isMobile ? 9 : 7;
     
+    // --- Entry Logic ---
     openBtn.addEventListener('click', () => {
       const name = guestInput.value.trim() || 'Respected Guest';
       greetingText.innerText = `Dear ${name},`;
@@ -247,9 +356,8 @@
       setTimeout(() => { entryScreen.style.display = 'none'; mainInvite.style.opacity = '1'; mainInvite.style.transform = 'translateY(0)'; }, 800);
 
       targetCameraZ = finalCameraZ; 
-      createFirework(0xffd700); 
+      triggerSparklesEffect(); 
 
-      // --- NEW: Audio Toggle Logic ---
       bgMusic.volume = 0.5;
       bgMusic.play().then(() => { 
         isPlaying = true; 
@@ -261,10 +369,12 @@
       });
     });
 
+    // --- Audio Control Button ---
     audioControls.addEventListener('click', () => {
       if (isPlaying) { 
         bgMusic.pause(); 
         audioControls.innerText = '🔇'; 
+        musicPausedByVideo = false; // User manually intervened
       } else { 
         bgMusic.play(); 
         audioControls.innerText = '🔊'; 
@@ -272,8 +382,46 @@
       isPlaying = !isPlaying;
     });
 
+    // --- SMART AUDIO CONTROL FOR VIDEOS ---
+    const allVideos = document.querySelectorAll('video');
+    allVideos.forEach(video => {
+      video.addEventListener('play', () => {
+        // Automatically pause other videos if one starts playing
+        allVideos.forEach(v => { if (v !== video) v.pause(); });
+        
+        // Pause background music if it was playing
+        if (isPlaying) {
+          bgMusic.pause();
+          audioControls.innerText = '🔇';
+          isPlaying = false;
+          musicPausedByVideo = true; // Remember that the video caused the pause
+        }
+      });
+
+      const handleVideoStop = () => {
+        // Check if any video is still playing
+        const anyVideoPlaying = Array.from(allVideos).some(v => !v.paused && !v.ended);
+        // If no videos are playing and we previously paused the bg music, resume it!
+        if (!anyVideoPlaying && musicPausedByVideo) {
+          bgMusic.play();
+          audioControls.innerText = '🔊';
+          isPlaying = true;
+          musicPausedByVideo = false;
+        }
+      };
+
+      video.addEventListener('pause', handleVideoStop);
+      video.addEventListener('ended', handleVideoStop);
+    });
+
+    // --- Tap Magic ---
+    sparkleTapBtn.addEventListener('click', () => {
+      triggerSparklesEffect();
+    });
+
     document.addEventListener("visibilitychange", () => { isTabActive = !document.hidden; });
 
+    // --- 3D Scene Setup ---
     const scene = new THREE.Scene();
     scene.background = new THREE.Color('#01150e'); 
     
@@ -368,10 +516,27 @@
       fireworks.push({mesh: fwMesh, vel: fwVel, age: 0, geo: fwGeo, mat: fwMat});
     }
 
+    function triggerSparklesEffect() {
+      createFirework(0xffffff); 
+      createFirework(0x00ff88); 
+      createFirework(0xffd700);
+      ringMaterial.emissiveIntensity = 2.5; 
+      ringGroup.userData.speedY = 0.1;
+      setTimeout(() => { 
+        ringMaterial.emissiveIntensity = 0.5; 
+        ringGroup.userData.speedY = 0.003; 
+      }, 2000);
+    }
+
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
     let lastTapTime = 0;
+    
+    // Double-tap on ring logic remains intact
     window.addEventListener('pointerdown', (event) => {
+      // Don't trigger if they clicked the HTML button
+      if (event.target.tagName === 'BUTTON' || event.target.closest('button')) return;
+
       const currentTime = new Date().getTime();
       const timeDiff = currentTime - lastTapTime;
       if (timeDiff < 300 && timeDiff > 0) {
@@ -380,9 +545,7 @@
         raycaster.setFromCamera(mouse, camera);
         const intersects = raycaster.intersectObjects(ringGroup.children);
         if (intersects.length > 0) {
-          createFirework(0xffffff); createFirework(0x00ff88); createFirework(0xffd700);
-          ringMaterial.emissiveIntensity = 2.5; ringGroup.userData.speedY = 0.1;
-          setTimeout(() => { ringMaterial.emissiveIntensity = 0.5; ringGroup.userData.speedY = 0.003; }, 2000);
+          triggerSparklesEffect();
         }
       }
       lastTapTime = currentTime;
