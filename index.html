@@ -164,12 +164,12 @@
       width: 100%; max-width: 1000px; margin-top: 20px;
     }
     .video-wrapper {
-      flex: 1 1 250px; /* Reduced flex-basis slightly for vertical layout */
-      max-width: 320px; /* Thinner max-width so 9:16 video isn't excessively tall */
+      flex: 1 1 250px; 
+      max-width: 320px; 
       border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 15px; 
       overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
       background: #000; display: flex; align-items: center; justify-content: center;
-      aspect-ratio: 9/16; /* Changed to Vertical/Portrait ratio */
+      aspect-ratio: 9/16; 
     }
     .video-wrapper video {
       width: 100%; height: 100%; outline: none; object-fit: cover;
@@ -256,14 +256,14 @@
       <div class="video-container reveal">
         
         <div class="video-wrapper">
-          <video controls preload="metadata" poster="https://via.placeholder.com/300x533/000000/d4af37?text=Video+1+Placeholder">
+          <video autoplay muted loop playsinline poster="https://via.placeholder.com/300x533/000000/d4af37?text=Video+1+Placeholder">
             <source src="video1.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
         </div>
 
         <div class="video-wrapper">
-          <video controls preload="metadata" poster="https://via.placeholder.com/300x533/000000/d4af37?text=Video+2+Placeholder">
+          <video autoplay muted loop playsinline poster="https://via.placeholder.com/300x533/000000/d4af37?text=Video+2+Placeholder">
             <source src="video2.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
@@ -305,7 +305,7 @@
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('active');
-          observer.unobserve(entry.target); // Trigger only once
+          observer.unobserve(entry.target); 
         }
       });
     }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
@@ -340,7 +340,6 @@
     
     let isPlaying = false;
     let isTabActive = true; 
-    let musicPausedByVideo = false; // Flag for Smart Audio feature
     const isMobile = window.innerWidth <= 768;
 
     const initialCameraZ = isMobile ? 12 : 10;
@@ -375,44 +374,11 @@
       if (isPlaying) { 
         bgMusic.pause(); 
         audioControls.innerText = '🔇'; 
-        musicPausedByVideo = false; // User manually intervened
       } else { 
         bgMusic.play(); 
         audioControls.innerText = '🔊'; 
       }
       isPlaying = !isPlaying;
-    });
-
-    // --- SMART AUDIO CONTROL FOR VIDEOS ---
-    const allVideos = document.querySelectorAll('video');
-    allVideos.forEach(video => {
-      video.addEventListener('play', () => {
-        // Automatically pause other videos if one starts playing
-        allVideos.forEach(v => { if (v !== video) v.pause(); });
-        
-        // Pause background music if it was playing
-        if (isPlaying) {
-          bgMusic.pause();
-          audioControls.innerText = '🔇';
-          isPlaying = false;
-          musicPausedByVideo = true; // Remember that the video caused the pause
-        }
-      });
-
-      const handleVideoStop = () => {
-        // Check if any video is still playing
-        const anyVideoPlaying = Array.from(allVideos).some(v => !v.paused && !v.ended);
-        // If no videos are playing and we previously paused the bg music, resume it!
-        if (!anyVideoPlaying && musicPausedByVideo) {
-          bgMusic.play();
-          audioControls.innerText = '🔊';
-          isPlaying = true;
-          musicPausedByVideo = false;
-        }
-      };
-
-      video.addEventListener('pause', handleVideoStop);
-      video.addEventListener('ended', handleVideoStop);
     });
 
     // --- Tap Magic ---
